@@ -1,0 +1,2 @@
+# Snide
+A simple chatroom!
