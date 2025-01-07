@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Snide Chatroom</title>
+  <title>Kiron's Chatroom</title>
   <style>
     body {
       font-family: 'Poppins', sans-serif;
@@ -36,28 +36,27 @@
 
     .message-bubble {
       display: block;
-      max-width: 70%;
-      padding: 10px 15px;
-      border-radius: 20px;
-      margin: 5px;
+      padding: 20px; /* Ensures square shape with width and height equal */
+      border-radius: 25px;
+      margin: 10px;
       word-wrap: break-word;
       font-size: 16px;
+      width: 60px;
+      height: 60px;
+      line-height: 60px; /* Center text vertically */
+      text-align: center; /* Default text alignment */
     }
 
     .user-message {
       background-color: #ff6600;
       color: white;
       align-self: flex-end;
-      border-radius: 20px 20px 0 20px;
-      text-align: right; /* Right-align user messages */
     }
 
     .other-message {
       background-color: #000000;
       color: white;
       align-self: flex-start;
-      border-radius: 20px 20px 20px 0;
-      text-align: left; /* Left-align other users' messages */
     }
 
     .server-message {
@@ -107,6 +106,27 @@
       font-size: 16px;
     }
 
+    /* Ask username box styling */
+    .username-box {
+      background-color: #ff6600;
+      color: white;
+      border: 2px solid #000000;
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      margin: 20px;
+    }
+
+    /* Typing indicator */
+    #typingIndicator {
+      font-style: italic;
+      font-size: 14px;
+      color: #999;
+      text-align: center;
+    }
+
     @media (max-width: 600px) {
       .chat-container {
         width: 95%;
@@ -127,6 +147,12 @@
     <div id="typingIndicator"></div> <!-- Typing indicator -->
   </div>
 
+  <div id="usernameBox" class="username-box" style="display: none;">
+    <p>Welcome to Kiron's Chatroom! Please enter your username:</p>
+    <input type="text" id="usernameInput" placeholder="Your username" />
+    <button id="setUsernameButton">Set Username</button>
+  </div>
+
   <script src="/socket.io/socket.io.js"></script>
   <script>
     const socket = io();
@@ -134,12 +160,23 @@
     const sendButton = document.getElementById('sendButton');
     const messagesDiv = document.getElementById('messages');
     const typingIndicator = document.getElementById('typingIndicator');
+    const usernameBox = document.getElementById('usernameBox');
+    const usernameInput = document.getElementById('usernameInput');
+    const setUsernameButton = document.getElementById('setUsernameButton');
     let username = '';
 
     // Prompt for username when first connecting
     socket.on('askUsername', () => {
-      username = prompt("Enter your username:");
-      socket.emit('setUsername', username);
+      usernameBox.style.display = 'block';  // Show the username input box
+    });
+
+    // Handle setting username
+    setUsernameButton.addEventListener('click', () => {
+      username = usernameInput.value.trim();
+      if (username) {
+        socket.emit('setUsername', username);
+        usernameBox.style.display = 'none';  // Hide the username box after setting
+      }
     });
 
     // Display incoming chat message
@@ -158,8 +195,10 @@
 
         if (sender === username) {
           messageElement.classList.add('user-message');
+          messageElement.style.alignSelf = 'flex-end';  // Align user message box to the right
         } else {
           messageElement.classList.add('other-message');
+          messageElement.style.alignSelf = 'flex-start';  // Align other users' messages to the left
         }
 
         // Append the formatted message with username
