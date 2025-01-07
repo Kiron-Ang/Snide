@@ -14,7 +14,7 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      color: #333;
+      color: #fff;
     }
 
     .chat-container {
@@ -26,48 +26,15 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       display: flex;
       flex-direction: column;
+      height: 80%;
     }
 
     .messages {
       flex-grow: 1;
       overflow-y: auto;
       margin-bottom: 10px;
-    }
-
-    .message-bubble {
-      display: block;
-      max-width: 70%;
-      padding: 10px 15px;
-      border-radius: 20px;
-      margin: 5px;
-      word-wrap: break-word;
+      white-space: pre-wrap; /* Allows text to wrap nicely */
       font-size: 16px;
-    }
-
-    .user-message {
-      background-color: #ff6600;
-      color: white;
-      align-self: flex-start;
-      border-radius: 20px 20px 0 20px;
-      text-align: left; 
-    }
-
-    .other-message {
-      background-color: #000000;
-      color: white;
-      align-self: flex-start;
-      border-radius: 20px 20px 20px 0;
-      text-align: left; 
-    }
-
-    .server-message {
-      background-color: #2c2f34;
-      color: #ffffff;
-      text-align: center; /* Center system messages */
-      font-style: italic;
-      margin: 10px 0;
-      padding: 8px;
-      border-radius: 8px;
     }
 
     .input-container {
@@ -103,10 +70,6 @@
       border-color: #000000; /* Black border */
     }
 
-    .input-container input {
-      font-size: 16px;
-    }
-
     @media (max-width: 600px) {
       .chat-container {
         width: 95%;
@@ -124,67 +87,9 @@
       <input type="text" id="messageInput" placeholder="Type a message" />
       <button id="sendButton">Send</button>
     </div>
-    <div id="typingIndicator"></div> <!-- Typing indicator -->
   </div>
 
   <script src="/socket.io/socket.io.js"></script>
-  <script>
-    const socket = io();
-    const messageInput = document.getElementById('messageInput');
-    const sendButton = document.getElementById('sendButton');
-    const messagesDiv = document.getElementById('messages');
-    const typingIndicator = document.getElementById('typingIndicator');
-    let username = '';
-
-    // Prompt for username when first connecting
-    socket.on('askUsername', () => {
-      username = prompt("Enter your username:");
-      socket.emit('setUsername', username);
-    });
-
-    // Display incoming chat message
-    socket.on('chatMessage', (msg) => {
-      const messageElement = document.createElement('p');
-      messageElement.classList.add('message-bubble');
-
-      // If it's a system message, format it differently
-      if (msg.includes("has joined the chat") || msg.includes("has left the chat")) {
-        messageElement.classList.add('server-message');
-        messageElement.textContent = msg;
-      } else {
-        // Split message by ":" to separate username from message
-        const [sender, ...messageParts] = msg.split(":");
-        const messageText = messageParts.join(":").trim();
-
-        if (sender === username) {
-          messageElement.classList.add('user-message');
-        } else {
-          messageElement.classList.add('other-message');
-        }
-
-        // Append the formatted message with username
-        messageElement.textContent = msg;
-      }
-
-      messagesDiv.appendChild(messageElement);
-      messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to the bottom
-    });
-
-    // Send message when button is clicked
-    sendButton.addEventListener('click', () => {
-      const message = messageInput.value.trim();
-      if (message) {
-        socket.emit('chatMessage', message);
-        messageInput.value = ''; // Clear input field
-      }
-    });
-
-    // Send message on Enter key press
-    messageInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        sendButton.click();
-      }
-    });
-  </script>
+  <script src="script.js"></script> <!-- External JS file -->
 </body>
 </html>
