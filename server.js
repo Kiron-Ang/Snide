@@ -19,20 +19,21 @@ io.on('connection', (socket) => {
   // When a username is submitted
   socket.on('setUsername', (name) => {
     username = name;
-    console.log(`${username} has joined the chat`);
-    io.emit('chatMessage', `${username} has joined the chat`);
+    console.log(`${username} sauntered into this snide chatroom!`);
+    io.emit('chatMessage', `${username} sauntered into this snide chatroom!`);
   });
 
   // When a message is received
   socket.on('chatMessage', (msg) => {
+    console.log(`${username}: ${msg}`)
     io.emit('chatMessage', `${username}: ${msg}`);
   });
 
   // When a user disconnects
   socket.on('disconnect', () => {
     if (username) {
-      console.log(`${username} has left the chat`);
-      io.emit('chatMessage', `${username} has left the chat`);
+      console.log(`${username} felt overwhelmed and left this snide chatroom!`);
+      io.emit('chatMessage', `${username} felt overwhelmed and left this snide chatroom!`);
     }
   });
 });
