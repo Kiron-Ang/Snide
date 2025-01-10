@@ -2,56 +2,40 @@
 const socket = io();
 
 // Get references to the DOM elements
-const messageInput = document.getElementById('messageInput'); // Input field for typing messages
-const sendButton = document.getElementById('sendButton'); // Button for sending messages
-const messagesDiv = document.getElementById('messages'); // Container for displaying messages
+const messageInput = document.getElementById('messageInput');
+const sendButton = document.getElementById('sendButton');
+const messagesDiv = document.getElementById('messages');
 
-// Initialize username variable
+// Flag to check if the username is set
+let isUsernameSet = false;
 let username = '';
 
-// Listen for an 'askUsername' event from the server to prompt the user for a username
+// Listen for the 'askUsername' event to prompt the user for a username
 socket.on('askUsername', () => {
-  // Prompt the user to enter a username when first connecting
   username = prompt("Enter your username:");
-  
-  // Emit the 'setUsername' event with the username to the server
   socket.emit('setUsername', username);
+  isUsernameSet = true;
 });
 
-// Listen for incoming 'chatMessage' events from the server (new messages)
+// Listen for incoming 'chatMessage' events and display them
 socket.on('chatMessage', (msg) => {
-  // Create a new <p> element to display the received message
   const messageElement = document.createElement('p');
-  
-  // Set the message text content
   messageElement.textContent = msg;
-
-  // Append the new message element to the messages container
   messagesDiv.appendChild(messageElement);
-
-  // Scroll the messages container to the bottom to show the latest message
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  messagesDiv.scrollTop = messagesDiv.scrollHeight; // Auto-scroll to the latest message
 });
 
-// Add an event listener to the send button to handle sending a message
-sendButton.addEventListener('click', () => {
-  // Get the message from the input field and remove extra whitespace
+// Send message function
+const sendMessage = () => {
   const message = messageInput.value.trim();
-
-  // Only send the message if it's not empty
-  if (message) {
-    // Emit the 'chatMessage' event with the message to the server
+  if (isUsernameSet && message) {
     socket.emit('chatMessage', message);
-    
-    // Clear the input field after sending the message
-    messageInput.value = '';
+    messageInput.value = ''; // Clear input after sending
+  } else if (!isUsernameSet) {
+    alert("Please enter a username first!");
   }
-});
+};
 
-// Add an event listener to the input field to handle sending messages with the Enter key
-messageInput.addEventListener('keypress', (e) => {
-  // If the user presses the Enter key, simulate a click on the send button
-  if (e.key === 'Enter') {
-    sendButton.click();
-  }
-});
+// Add event listeners for send button and Enter key
+sendButton.addEventListener('click', sendMessage);
+messageInput.addEventListener('keypress', (e) => e.key === 'Enter' && sendMessage());
