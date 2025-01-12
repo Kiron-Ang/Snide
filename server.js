@@ -11,17 +11,15 @@ app.use(express.static('public'));
 io.on('connection', (socket) => {
   let username = '';
 
-  socket.emit('askUsername');
-
-  socket.on('setUsername', (name) => {
-    username = name;
-    console.log(`${username} joined the chatroom`);
-    io.emit('chatMessage', `${username} joined the chatroom`);
-  });
-
   socket.on('chatMessage', (msg) => {
-    console.log(`${username}: ${msg}`);
-    io.emit('chatMessage', `${username}: ${msg}`);
+    if (!username) {
+      username = msg.trim();
+      console.log(`${username} joined the chatroom`);
+      io.emit('chatMessage', `${username} joined the chatroom`);
+    } else {
+      console.log(`${username}: ${msg}`);
+      io.emit('chatMessage', `${username}: ${msg}`);
+    }
   });
 
   socket.on('disconnect', () => {
@@ -32,4 +30,4 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(3000, () => console.log('Server running on http://localhost:3000'));
+server.listen(3000, () => console.log('Server is listening on port 3000!'));
