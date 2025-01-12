@@ -1,32 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Meta charset for proper character encoding -->
   <meta charset="UTF-8">
-  <!-- Viewport settings for responsive design, scaling for mobile devices -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Title of the webpage displayed in the browser tab -->
   <title>Snide Chatroom</title>
-  <!-- Link to external stylesheet -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Main chat container -->
   <div class="chat-container">
-    <!-- Messages display area -->
     <div class="messages" id="messages"></div>
-    <!-- Input area with text field and send button -->
     <div class="input-container">
-      <!-- Text input field for user message -->
-      <input type="text" id="messageInput" placeholder="Share genuine feelings or snide remarks! The choice is yours..." />
-      <!-- Send button to submit the message -->
+      <input type="text" id="messageInput" placeholder="Share genuine feelings or snide remarks!">
       <button id="sendButton">Send</button>
     </div>
   </div>
 
-  <!-- Include the Socket.io library for real-time communication -->
+  <!-- Custom Modal for Username -->
+  <div id="usernameModal" class="modal">
+    <div class="modal-content">
+      <h2>Please enter your username</h2>
+      <input type="text" id="usernameInput" placeholder="Enter your username" />
+      <button id="submitUsername">Submit</button>
+    </div>
+  </div>
+
   <script src="/socket.io/socket.io.js"></script>
-  <!-- External JavaScript file to handle chat functionality -->
   <script src="script.js"></script>
 </body>
 </html>

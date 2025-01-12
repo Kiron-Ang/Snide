@@ -1,28 +1,37 @@
-// Establish a connection with the server using Socket.io
 const socket = io();
-
-// Get references to the DOM elements
 const messageInput = document.getElementById('messageInput');
 const sendButton = document.getElementById('sendButton');
 const messagesDiv = document.getElementById('messages');
+const usernameModal = document.getElementById('usernameModal');
+const submitUsernameButton = document.getElementById('submitUsername');
+const usernameInputField = document.getElementById('usernameInput');
 
-// Flag to check if the username is set
 let isUsernameSet = false;
 let username = '';
 
-// Listen for the 'askUsername' event to prompt the user for a username
+// Display the custom modal for username input
 socket.on('askUsername', () => {
-  username = prompt("Enter your username:");
-  socket.emit('setUsername', username);
-  isUsernameSet = true;
+  usernameModal.style.display = 'flex'; // Show the modal
 });
 
-// Listen for incoming 'chatMessage' events and display them
+// Handle username submission
+submitUsernameButton.addEventListener('click', () => {
+  username = usernameInputField.value.trim();
+  if (username) {
+    socket.emit('setUsername', username);
+    isUsernameSet = true;
+    usernameModal.style.display = 'none'; // Hide the modal
+  } else {
+    alert("Please enter a valid username!");
+  }
+});
+
+// Display incoming chat messages
 socket.on('chatMessage', (msg) => {
   const messageElement = document.createElement('p');
   messageElement.textContent = msg;
   messagesDiv.appendChild(messageElement);
-  messagesDiv.scrollTop = messagesDiv.scrollHeight; // Auto-scroll to the latest message
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
 });
 
 // Send message function
@@ -36,6 +45,6 @@ const sendMessage = () => {
   }
 };
 
-// Add event listeners for send button and Enter key
+// Event listeners
 sendButton.addEventListener('click', sendMessage);
 messageInput.addEventListener('keypress', (e) => e.key === 'Enter' && sendMessage());
