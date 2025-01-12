@@ -86,7 +86,7 @@ coding standards and provide appropriate test coverage for new features.
 
 ## License
 
-See the [license](LICENSE.txt) file for details.
+See the [license](license.txt) file for details.
 
 ## Questions or Comments?
 
