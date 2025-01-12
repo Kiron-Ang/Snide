@@ -1,7 +1,7 @@
 /* Apply general styling to the body */
 body {
-  font-family: 'Courier New', Courier, monospace; /* Set the font and fallback */
-  background: linear-gradient(135deg, #ff6600, #000000); /* Create a gradient background from orange to black */
+  font-family: 'Courier New', Courier, monospace; /* Font and fallback */
+  background: linear-gradient(135deg, #ff6600, #000000); /* Gradient */
   margin: 0; /* Remove default margin */
   padding: 0; /* Remove default padding */
   display: flex; /* Use flexbox layout for centering content */
@@ -20,7 +20,7 @@ body {
   border-radius: 10px; /* Round the corners of the container */
   display: flex; /* Use flexbox for layout inside the chat container */
   flex-direction: column; /* Arrange child elements in a vertical column */
-  height: 80%; /* Set the height of the container to 80% of the viewport height */
+  height: 80%; /* Set the height to 80% of the viewport height */
 }
 
 /* Styling for the messages area */
@@ -28,7 +28,7 @@ body {
   flex-grow: 1; /* Allow this element to grow and fill available space */
   overflow-y: auto; /* Enable vertical scrolling when content overflows */
   margin-bottom: 10px; /* Add space between messages and the input area */
-  white-space: pre-wrap; /* Preserve whitespace formatting and wrap text as needed */
+  white-space: pre-wrap; /* Preserve whitespace formatting and wrap text */
   font-size: 20px; /* Set font size for message text */
 }
 
@@ -63,7 +63,7 @@ body {
 
 /* Button hover effect */
 .input-container button:hover {
-  background-color: #444; /* Change background to a lighter dark color when hovered */
+  background-color: #444; /* Change background when hovered */
 }
 
 /* Remove outline and highlight border on focus for input and button */
@@ -71,3 +71,10 @@ input:focus, button:focus {
   outline: none; /* Remove the default outline on focus */
   border-color: #FF6600; /* Set the border color to orange when focused */
 }
+
+/* Target the placeholder text of all input elements */
+input::placeholder {
+  font-family: 'Courier New', Courier, monospace; /* Font and fallback */
+  opacity: 1; /* Set opacity */
+}
+
