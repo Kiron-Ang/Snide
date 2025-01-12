@@ -14,8 +14,8 @@ io.on('connection', (socket) => {
   socket.on('chatMessage', (msg) => {
     if (!username) {
       username = msg.trim();
-      console.log(`${username} joined the chatroom`);
-      io.emit('chatMessage', `${username} joined the chatroom`);
+      console.log(`${username} stepped into this snide chatroom!`);
+      io.emit('chatMessage', `${username} stepped into this snide chatroom!`);
     } else {
       console.log(`${username}: ${msg}`);
       io.emit('chatMessage', `${username}: ${msg}`);
@@ -24,8 +24,8 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     if (username) {
-      console.log(`${username} left the chatroom`);
-      io.emit('chatMessage', `${username} left the chatroom`);
+      console.log(`${username} withdrew from this snide chatroom!`);
+      io.emit('chatMessage', `${username} withdrew from this snide chatroom!`);
     }
   });
 });
