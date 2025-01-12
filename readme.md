@@ -1,10 +1,11 @@
 # Snide
 
 **Snide** is a simple real-time chatroom web application built with
-**Node.js (v23.5.0)**, **Express (4.21.2)**, and **Socket.IO (4.8.1)**. This
-app allows users to join a chatroom, set a username with their first message,
+**Node.js (v23.5.0)**, **Express (v4.21.2)**, and **Socket.IO (v4.8.1)**.
+This app allows users to join a chatroom, set a username,
 and interact with others in real-time through WebSocket connections. It’s a
-lightweight solution for building web-based chat applications.
+lightweight solution for building web-based chat applications. Snide is
+currently deployed on the platform **Render** at https://snide.onrender.com.
 
 ## Features
 
