@@ -25,12 +25,13 @@ const sendMessage = () => {
   }
 };
 
-// Add event listener to the send button to send the message on click
-sendButton.addEventListener('click', sendMessage);
-
-// Add event listener to send the message when Enter key is pressed
-messageInput.addEventListener('keypress',
-  (e) => e.key === 'Enter' && sendMessage());
+// Add event listener for "Enter" key
+messageInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+      e.preventDefault(); // Prevent form submission or other default actions
+      sendMessage(); // Send the message
+  }
+});
 
 // Listen for incoming chat messages from the server
 socket.on('chatMessage', (msg) => {
